@@ -1,4 +1,4 @@
-(ns subpar.paredit)
+(ns lt.plugins.subpar.paredit)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; what belongs in this namespace: anything related to parsing code
@@ -31,7 +31,7 @@
 ;; what's in here.
 ;;
 ;; this code assumes clojure-like syntax, and only handles
-;; single-character delimiters. for example, it does not handle ^:{ 
+;; single-character delimiters. for example, it does not handle ^:{
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (def code \c)
@@ -119,7 +119,7 @@
 (defn count-lines
   "how many lines contain the code from i to j inclusive"
   [s i j]
-  (and i j 
+  (and i j
        (->> (take (count s) s)
             (drop-last (dec (- (count s) j)))
             (drop i)
@@ -448,7 +448,7 @@
                         (assoc-in [-1 :closer] (dec i))
                         (assoc-in [-1 :children start] (dec i)))}
          ;; end condition. not at end of word.
-         (nil? a) 
+         (nil? a)
          {:chars t
           :families (assoc-in families [-1 :closer] (dec i))}
          ;; escaping next char. applies in code and strings but not in
@@ -516,7 +516,7 @@
                                                                   (assoc-in [o :children i] i)
                                                                   (assoc-in [i :children] {})) false false)
          ;; completed a list which is both a parent and a child. also
-         ;; completed a word which is a child 
+         ;; completed a word which is a child
          (and (closer? a) in-word)
          (recur j code (pop openings) -1 (conj t [mode o]) (-> families
                                                                (assoc-in [o :children start] (dec i))
